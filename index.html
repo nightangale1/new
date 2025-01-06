@@ -1,56 +1,24 @@
-// Import necessary libraries
-import { Globe } from 'globe.gl';
-import * as THREE from 'three';
-
-// Initialize the globe
-document.addEventListener('DOMContentLoaded', () => {
-    const globeContainer = document.getElementById('globe-container');
-
-    const globe = Globe()(globeContainer)
-        .globeImageUrl('//unpkg.com/three-globe/example/img/earth-dark.jpg')
-        .bumpImageUrl('//unpkg.com/three-globe/example/img/earth-topology.png')
-        .backgroundColor('#000')
-        .pointOfView({ lat: 0, lng: 0, altitude: 2 });
-
-    // Enable zoom and rotation
-    globe.controls().enableZoom = true;
-    globe.controls().enableRotate = true;
-
-    // Add a sample friend data structure
-    let friends = [];
-
-    // Function to add a friend
-    function addFriend(id, lat, lng) {
-        // Example friend data
-        const friend = {
-            id,
-            lat,
-            lng,
-        };
-
-        // Add to friends array
-        friends.push(friend);
-
-        // Update globe points
-        globe.pointsData(friends.map(f => ({
-            lat: f.lat,
-            lng: f.lng,
-            size: 10,
-            color: 'red',
-        })));
-    }
-
-    // Example: Add a friend on button click
-    document.getElementById('add-friend-btn').addEventListener('click', () => {
-        const id = document.getElementById('friend-id').value;
-        const lat = parseFloat(document.getElementById('latitude').value);
-        const lng = parseFloat(document.getElementById('longitude').value);
-
-        if (id && !isNaN(lat) && !isNaN(lng)) {
-            addFriend(id, lat, lng);
-            alert('Friend added!');
-        } else {
-            alert('Invalid input!');
-        }
-    });
-});
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Friends Locator</title>
+    <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+    <div id="app">
+        <h1>Friends Locator</h1>
+        <div id="globe-container"></div>
+        <div id="controls">
+            <input type="text" id="friend-id" placeholder="Friend ID" />
+            <input type="number" id="latitude" placeholder="Latitude" />
+            <input type="number" id="longitude" placeholder="Longitude" />
+            <button id="add-friend-btn">Add Friend</button>
+        </div>
+    </div>
+    <script src="https://unpkg.com/three"></script>
+    <script src="https://unpkg.com/globe.gl"></script>
+    <script src="app.js"></script>
+</body>
+</html>
